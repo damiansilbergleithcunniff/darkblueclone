@@ -52,7 +52,7 @@ define(['vector'],function(vector) {
     var newCoin = {
       pos: vecPosition.plus(vector.vectorFactory(0.2, 0.1)),
       size: vector.vectorFactory(0.6, 0.6),
-      basePos: newCoin.pos,
+      basePos: this.pos,
       wobble: Math.random() * Math.PI * 2,
       type: 'coin'
     };

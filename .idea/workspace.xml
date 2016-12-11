@@ -4,6 +4,8 @@
     <list default="true" id="adae7307-5557-4597-b84a-6624b275ec47" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/actor.js" afterPath="$PROJECT_DIR$/scripts/actor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/app.js" afterPath="$PROJECT_DIR$/scripts/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/level.js" afterPath="$PROJECT_DIR$/scripts/level.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,25 +29,29 @@
       <file leaf-file-name="level.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/level.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="279">
+              <caret line="65" column="35" lean-forward="true" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
               <folding>
                 <element signature="e#0#41#0" expanded="false" />
+                <element signature="e#113#151#0" expanded="false" />
+                <element signature="e#172#318#0" expanded="false" />
+                <element signature="e#518#659#0" expanded="false" />
+                <element signature="e#698#772#0" expanded="false" />
+                <element signature="e#2318#2363#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="actor.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="actor.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/actor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="61" column="0" lean-forward="true" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+            <state relative-caret-position="378">
+              <caret line="54" column="20" lean-forward="false" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
               <folding>
                 <element signature="e#0#41#0" expanded="false" />
                 <element signature="e#235#457#0" expanded="false" />
                 <element signature="e#730#1392#0" expanded="false" />
-                <element signature="e#1531#1779#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -63,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="4" column="4" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+            <state relative-caret-position="378">
+              <caret line="18" column="65" lean-forward="false" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -108,9 +114,12 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>&quot;</find>
+      <find>level</find>
+      <find>this</find>
     </findStrings>
     <replaceStrings>
       <replace>'</replace>
+      <replace>newLevel</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -124,9 +133,9 @@
         <option value="$PROJECT_DIR$/scripts/actors.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/scripts/index.js" />
+        <option value="$PROJECT_DIR$/scripts/vector.js" />
         <option value="$PROJECT_DIR$/scripts/app.js" />
         <option value="$PROJECT_DIR$/scripts/level.js" />
-        <option value="$PROJECT_DIR$/scripts/vector.js" />
         <option value="$PROJECT_DIR$/scripts/actor.js" />
       </list>
     </option>
@@ -198,8 +207,11 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
-  <component name="RunManager" selected="Node.js.actor.js">
+  <component name="RunManager" selected="Node.js.app.js">
     <configuration default="false" name="actor.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="actor.js" working-dir="$PROJECT_DIR$/scripts">
+      <method />
+    </configuration>
+    <configuration default="false" name="app.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="app.js" working-dir="$PROJECT_DIR$/scripts">
       <method />
     </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
@@ -261,12 +273,14 @@
       <recursive>false</recursive>
       <method />
     </configuration>
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Node.js.actor.js" />
+      <item index="1" class="java.lang.String" itemvalue="Node.js.app.js" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Node.js.actor.js" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.app.js" />
+        <item index="1" class="java.lang.String" itemvalue="Node.js.actor.js" />
       </list>
     </recent_temporary>
   </component>
@@ -282,12 +296,12 @@
       <updated>1481459157670</updated>
       <workItem from="1481459158798" duration="240000" />
       <workItem from="1481459450458" duration="206000" />
-      <workItem from="1481459918649" duration="7021000" />
+      <workItem from="1481459918649" duration="7533000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7467000" />
+    <option name="totallyTimeSpent" value="7979000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -388,34 +402,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="18" column="65" lean-forward="false" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/level.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+        <state relative-caret-position="279">
+          <caret line="65" column="35" lean-forward="true" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
+            <element signature="e#113#151#0" expanded="false" />
+            <element signature="e#172#318#0" expanded="false" />
+            <element signature="e#518#659#0" expanded="false" />
+            <element signature="e#698#772#0" expanded="false" />
+            <element signature="e#2318#2363#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/actor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="61" column="0" lean-forward="true" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+        <state relative-caret-position="378">
+          <caret line="54" column="20" lean-forward="false" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
             <element signature="e#235#457#0" expanded="false" />
             <element signature="e#730#1392#0" expanded="false" />
-            <element signature="e#1531#1779#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="4" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
