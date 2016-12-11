@@ -1,4 +1,4 @@
-define(['level'], function(level) {
+define(['level', 'dom-drawing'], function(level, drawing) {
 
   function run() {
     console.log('running');
@@ -16,7 +16,7 @@ define(['level'], function(level) {
     ];
 
     var simpleLevel = level.levelFactory(simpleLevelPlan);
-    console.log(simpleLevel.width + ' by ' + simpleLevel.height);
+    drawing.displayFactory(document.body, simpleLevel, 20);
   }
 
   return {
