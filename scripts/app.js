@@ -1,6 +1,22 @@
 define(['level', 'dom-drawing'], function(level, drawing) {
 
-  function run() {
+  // Todo: review this function
+  function runAnimation(frameFunc) {
+    var lastTime = null;
+    function frame(time) {
+      var stop = false;
+      if (lastTime != null) {
+        var timeStep = Math.min(time - lastTime, 100) / 1000;
+        stop = frameFunc(timeStep) === false;
+      }
+      lastTime = time;
+      if (!stop)
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+    function run() {
     console.log('running');
 
     var simpleLevelPlan = [
@@ -16,8 +32,21 @@ define(['level', 'dom-drawing'], function(level, drawing) {
     ];
 
     var simpleLevel = level.levelFactory(simpleLevelPlan);
-    drawing.displayFactory(document.body, simpleLevel, 20);
-  }
+    var display = drawing.displayFactory(document.body, simpleLevel, 40);
+    var arrows;
+    // todo: review this as wellg
+    runAnimation(function(step) {
+      simpleLevel.animate(step, arrows);
+      display.drawFrame(step);
+      if (simpleLevel.isFinished()) {
+        display.clear();
+        if (andThen)
+          andThen(simpleLevel.status);
+        return false;
+      }
+    });
+
+    }
 
   return {
     run: run

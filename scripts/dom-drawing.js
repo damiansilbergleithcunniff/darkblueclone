@@ -126,6 +126,8 @@ define([], function () {
     domDisplay.wrap.appendChild(domDisplay.drawBackground());
     domDisplay.actorLayer = null;
     domDisplay.drawFrame();
+
+    return domDisplay;
   }
 
   return {

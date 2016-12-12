@@ -13,6 +13,10 @@ define(['vector'],function(vector) {
       type: "player"
     };
 
+    newPlayer.act = function() {
+      console.log('player.act is not implemented yet...');
+    };
+
     return newPlayer;
   }
 
@@ -24,7 +28,8 @@ define(['vector'],function(vector) {
       pos: vecPosition,
       size: vector.vectorFactory(1,1),
       speed: null,
-      type: 'lava'
+      type: 'lava',
+      repeatPos: null
     };
 
     // TODO: these mapping are hard coded.  They should be more dynamic
@@ -43,6 +48,30 @@ define(['vector'],function(vector) {
         //TODO: Raise execption?
     }
 
+    // move the lava.
+    // lava either:
+    //  progresses forward by a step
+    //  returns to its start pos if repeatPos is set
+    //  otherwise, bounces off a wall and heads backward
+    newLava.act = function(step, level) {
+      // The lava moves its speed * the size of the step
+      var newPos = newLava.pos.plus(newLava.speed.times(step));
+      // if there's no obstacle in the new position
+      if (!level.obstacleAt(newPos, newLava.size)){
+        // move the lava there
+        newLava.pos = newPos;
+      }
+      // there's an obstacle but the lava is set to drip
+      else if (newLava.repeatPos) {
+        // move it back to the the start so it can drip again
+        newLava.pos = newLava.repeatPos;
+      }
+      // otherwise it needs to bounce off and move back in the other dir
+      else {
+        newLava.speed = newLava.speed.times(-1);
+      }
+    };
+
     return newLava;
   }
 
@@ -52,11 +81,13 @@ define(['vector'],function(vector) {
     var newCoin = {
       pos: vecPosition.plus(vector.vectorFactory(0.2, 0.1)),
       size: vector.vectorFactory(0.6, 0.6),
-      basePos: this.pos,
       wobble: Math.random() * Math.PI * 2,
       type: 'coin'
     };
 
+    newCoin.act = function() {
+      console.log('coin.act is not implemented yet...');
+    };
     return newCoin;
   }
 
