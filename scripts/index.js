@@ -10,4 +10,5 @@ requirejs.config = {
 
 requirejs(['app'], function(app) {
   app.run();
+  window.killapp = app.kill;
 });

@@ -97,8 +97,33 @@ define(['vector', 'actor'], function(vector, actor){
       }
     };
 
+    // Process collisions
+    //  If you hit lava you die, if you collect the last coin you win
+    // type: the type of object collided with
+    // actor: if specified, the actor that was collided with
+    newLevel.playerTouched = function(type, actor) {
+      // if you collided with lava and the game isn't over
+      if (type === 'lava' && newLevel.status === null) {
+        // you dead baby
+        newLevel.status = 'lost';
+        newLevel.finishDelay = 1;
+      } else if (type === 'coin') { // otherwise if you've hit a coin
+        // filter the actors to remove the coin that was hit
+        newLevel.actors = newLevel.actors.filter(function(other) {
+          return other !== actor;
+        });
+        // if there aren't any coins left in the actor array
+        if (!newLevel.actors.some(function(actor) {
+            return actor.type === 'coin';
+          })) {
+          // you won!
+          newLevel.status = 'won';
+          newLevel.finishDelay = 1;
+        }
+      }
+    };
 
-    // Gives all actors in the level a chance to move
+      // Gives all actors in the level a chance to move
     // step: the time step, in seconds
     // keys: the arrow keys the player has pressed
     newLevel.animate = function(step, keys) {
@@ -165,7 +190,7 @@ define(['vector', 'actor'], function(vector, actor){
 
     // set the player attribute of the level to the player actor.
     // There should be only 1
-    // this is done after all the actors and level information is loaded
+    // newLevel is done after all the actors and level information is loaded
     // to set a static property on the level
     newLevel.player = newLevel.actors.filter(function(actor) {
       return actor.type === 'player';
