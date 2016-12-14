@@ -50,9 +50,12 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
   // Runs the specified level and calls andThen on completion
   // level: the level to run
   // displayFactory: a displayFactory used to render the level's view
-  // trackedKeys: a key tracking object
+  // keyboard: a key keyboard module
   // andThen: a function to call when the level is done
-  function runLevel(level, displayFactory, trackedKeys, andThen) {
+  function runLevel(level, displayFactory, keyboard, andThen) {
+    keyboard.enableKeyboard();
+    var trackedKeys = keyboard.trackedKeys();
+
     // make a display based on the level
     var display = displayFactory(document.body, level, scale);
     // run the animation with a frame func
@@ -67,6 +70,7 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
       // call the andThen if necessary
       // and finally exit
       if (level.isFinished()) {
+        keyboard.disableKeyboard();
         display.clear();
         if (andThen){
           andThen(level.status);
@@ -79,16 +83,16 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
   // Runs a set of levels using the specified display factory
   // plans: array of levels
   // displayFactory: a displayFactory for rendering
-  // trackedKeys: a key tracking object
-  function runGame(plans, displayFactory, trackedKeys) {
+  // keyboard: a keyboard module
+  function runGame(plans, displayFactory, keyboard) {
     // function to start a level contained in the plans
     // n: the index of the level to start
     function startLevel(n) {
       // make the level from the plan at index n
       var currentLevel = level.levelFactory(plans[n]);
-      // run the current level using the display factory and tracking keys
+      // run the current level using the display factory and keyboard
       // when the level completes, call this function
-      runLevel(currentLevel, displayFactory, trackedKeys, function(status) {
+      runLevel(currentLevel, displayFactory, keyboard, function(status) {
         // if you lose, repeat the level
         // otherwise if there are levels left, go to the next
         // otherwise you've finished all the levels, you win
@@ -115,8 +119,6 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
 
 
   function run() {
-    keyboard.enableKeyboard();
-
     var simpleLevelPlan = [
       '                      ',
       '                      ',
@@ -128,7 +130,8 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
       '      xxxxxxxxxxxxxx  ',
       '                      '
     ];
-    runGame(game_levels.plan, drawing.displayFactory, keyboard.trackedKeys())
+    // runGame([simpleLevelPlan], drawing.displayFactory, keyboard);
+    runGame(game_levels.plan, drawing.displayFactory, keyboard);
   }
 
   return {

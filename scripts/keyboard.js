@@ -10,6 +10,10 @@ define([],function() {
     39: 'right' // rightArrow
   };
 
+  // we need this at module scope so that we can remove it
+  // in the disableKeyboard() function
+  var keypressHandler;
+
   // Creates an object that tracks what keys are pressed
   // also wires up the keyup/keydown listeners
   // even though this looks like a factory
@@ -20,7 +24,9 @@ define([],function() {
   function setupTracking(codes) {
     var pressed = Object.create(null);
 
-    function keypressHandler(event) {
+    // we define the function for handle keypresses
+    // but we save it to function scope so that we can remove it later
+    keypressHandler = function(event) {
       // check the codes object and see if it has a property
       // that matches the keycode
       // this works with objects like 'trackedCodes'
@@ -34,11 +40,7 @@ define([],function() {
         // and block the default event (no key down or key up events)
         event.preventDefault();
       }
-    }
-
-    // add the keypress handler to the keyup and keydown events
-    addEventListener('keydown', keypressHandler);
-    addEventListener('keyup', keypressHandler);
+    };
 
     return pressed;
   }
@@ -47,6 +49,10 @@ define([],function() {
     // setup tracking and save the tracker object so that it can be
     // exported from the module
     trackedKeys = setupTracking(trackedCodes);
+    // add the keypress handler to the keyup and keydown events
+    addEventListener('keydown', keypressHandler);
+    addEventListener('keyup', keypressHandler);
+
   }
 
   function disableKeyboard(){
