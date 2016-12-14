@@ -84,10 +84,12 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
   // plans: array of levels
   // displayFactory: a displayFactory for rendering
   // keyboard: a keyboard module
-  function runGame(plans, displayFactory, keyboard) {
+  // startingLives: the number of lives a player gets to start
+  function runGame(plans, displayFactory, keyboard, startingLives) {
     // function to start a level contained in the plans
     // n: the index of the level to start
-    function startLevel(n) {
+    function startLevel(n, remainingLives) {
+      showLifeCount(remainingLives);
       // make the level from the plan at index n
       var currentLevel = level.levelFactory(plans[n]);
       // run the current level using the display factory and keyboard
@@ -97,20 +99,31 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
         // otherwise if there are levels left, go to the next
         // otherwise you've finished all the levels, you win
         if (status === 'lost'){
-          startLevel(n);
+          remainingLives -= 1;
+          if (remainingLives > 0){
+            startLevel(n, remainingLives);
+          } else {
+            lose();
+          }
         } else if (n < plans.length - 1) {
-          startLevel(n + 1);
+          startLevel(n + 1, remainingLives);
         } else {
           win();
         }
       });
     }
-    startLevel(0);
+    startLevel(0, startingLives);
   }
 
   // function to handle the win state
   function win() {
     console.log('You win!');
+  }
+  function lose() {
+    console.log('You lose');
+  }
+  function showLifeCount(remainingLives) {
+    console.log('You have: ' + remainingLives + (remainingLives > 1 ? ' lives' : ' life') + " remaining.");
   }
   // function to terminate while running
   var kill = function(){
@@ -131,7 +144,7 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
       '                      '
     ];
     // runGame([simpleLevelPlan], drawing.displayFactory, keyboard);
-    runGame(game_levels.plan, drawing.displayFactory, keyboard);
+    runGame(game_levels.plan, drawing.displayFactory, keyboard, 3);
   }
 
   return {
