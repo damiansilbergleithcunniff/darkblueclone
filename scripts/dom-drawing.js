@@ -87,7 +87,7 @@ define([], function () {
       var height = domDisplay.wrap.clientHeight;
       // we create a margin (1/3 of the width) that the player can move
       // around in without scrolling the viewport
-      var margin = width / 3;
+      var margin = width / 3
 
       // The viewport
       var left = domDisplay.wrap.scrollLeft;
@@ -103,7 +103,7 @@ define([], function () {
         // scroll the wrapper to the left
         domDisplay.wrap.scrollLeft = center.x - margin;
       }
-      // if the player's center is too far to teh right
+      // if the player's center is too far to the right
       else if (center.x > right - margin) {
         // scroll the wrapper back to the right
         domDisplay.wrap.scrollLeft = center.x + margin - width;
@@ -112,7 +112,7 @@ define([], function () {
       if (center.y < top + margin) {
         domDisplay.wrap.scrollTop = center.y - margin;
       }
-      else if (center.y > bottom - margin){
+      else if (center.y > (bottom - margin)){
         domDisplay.wrap.scrollTop = center.y + margin - height;
       }
 

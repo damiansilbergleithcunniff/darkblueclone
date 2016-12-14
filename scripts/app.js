@@ -1,11 +1,8 @@
-define(['level', 'dom-drawing', 'keyboard'], function(level, drawing, keyboard) {
+define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, drawing, keyboard, game_levels) {
 
-  var scale = 40;
+  var scale = 20;
   var killSwitch = false;
 
-  var kill = function(){
-    killSwitch = true;
-  };
 
 
   // Runs the animation by scheduling the next frame using requestAnimationFrame
@@ -79,6 +76,43 @@ define(['level', 'dom-drawing', 'keyboard'], function(level, drawing, keyboard) 
   });
 }
 
+  // Runs a set of levels using the specified display factory
+  // plans: array of levels
+  // displayFactory: a displayFactory for rendering
+  // trackedKeys: a key tracking object
+  function runGame(plans, displayFactory, trackedKeys) {
+    // function to start a level contained in the plans
+    // n: the index of the level to start
+    function startLevel(n) {
+      // make the level from the plan at index n
+      var currentLevel = level.levelFactory(plans[n]);
+      // run the current level using the display factory and tracking keys
+      // when the level completes, call this function
+      runLevel(currentLevel, displayFactory, trackedKeys, function(status) {
+        // if you lose, repeat the level
+        // otherwise if there are levels left, go to the next
+        // otherwise you've finished all the levels, you win
+        if (status === 'lost'){
+          startLevel(n);
+        } else if (n < plans.length - 1) {
+          startLevel(n + 1);
+        } else {
+          win();
+        }
+      });
+    }
+    startLevel(0);
+  }
+
+  // function to handle the win state
+  function win() {
+    console.log('You win!');
+  }
+  // function to terminate while running
+  var kill = function(){
+    killSwitch = true;
+  };
+
 
   function run() {
     keyboard.enableKeyboard();
@@ -94,9 +128,7 @@ define(['level', 'dom-drawing', 'keyboard'], function(level, drawing, keyboard) 
       '      xxxxxxxxxxxxxx  ',
       '                      '
     ];
-    var simpleLevel = level.levelFactory(simpleLevelPlan);
-    runLevel(simpleLevel, drawing.displayFactory, keyboard.trackedKeys(), function(){ console.log(simpleLevel.status)});
-
+    runGame(game_levels.plan, drawing.displayFactory, keyboard.trackedKeys())
   }
 
   return {
