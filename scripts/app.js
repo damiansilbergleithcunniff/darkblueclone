@@ -2,7 +2,7 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
 
   var scale = 20;
   var killSwitch = false;
-
+  var remainingLives = 0;
 
 
   // Runs the animation by scheduling the next frame using requestAnimationFrame
@@ -53,18 +53,24 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
   // keyboard: a key keyboard module
   // andThen: a function to call when the level is done
   function runLevel(level, displayFactory, keyboard, andThen) {
-    keyboard.enableKeyboard();
+    // we have not shown a pause status to the user for this level
+    var displayedPauseStatus = null;
+    keyboard.enableKeyboard(addThirtyLives);
     var trackedKeys = keyboard.trackedKeys();
 
     // make a display based on the level
     var display = displayFactory(document.body, level, scale);
     // run the animation with a frame func
     runAnimation(function(step) {
-      // Iterate the level causing everybody to act
-      // pass the keys that were pressed so that we can move if necessary
-      level.animate(step, trackedKeys);
-      // draw the update on the screen
-      display.drawFrame(step);
+      // show the pause status (if we have to) and update the displayedStatus
+      displayedPauseStatus = showPausedStatus(displayedPauseStatus, trackedKeys.isPaused);
+      if (!trackedKeys.isPaused){
+        // Iterate the level causing everybody to act
+        // pass the keys that were pressed so that we can move if necessary
+        level.animate(step, trackedKeys);
+        // draw the update on the screen
+        display.drawFrame(step);
+      }
 
       // if the level is done
       // call the andThen if necessary
@@ -77,8 +83,8 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
         }
         return false;
       }
-  });
-}
+    });
+  }
 
   // Runs a set of levels using the specified display factory
   // plans: array of levels
@@ -86,10 +92,11 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
   // keyboard: a keyboard module
   // startingLives: the number of lives a player gets to start
   function runGame(plans, displayFactory, keyboard, startingLives) {
+    remainingLives = startingLives;
     // function to start a level contained in the plans
     // n: the index of the level to start
-    function startLevel(n, remainingLives) {
-      showLifeCount(remainingLives);
+    function startLevel(n) {
+      showLifeCount();
       // make the level from the plan at index n
       var currentLevel = level.levelFactory(plans[n]);
       // run the current level using the display factory and keyboard
@@ -101,18 +108,18 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
         if (status === 'lost'){
           remainingLives -= 1;
           if (remainingLives > 0){
-            startLevel(n, remainingLives);
+            startLevel(n);
           } else {
             lose();
           }
         } else if (n < plans.length - 1) {
-          startLevel(n + 1, remainingLives);
+          startLevel(n + 1);
         } else {
           win();
         }
       });
     }
-    startLevel(0, startingLives);
+    startLevel(0);
   }
 
   // function to handle the win state
@@ -122,9 +129,46 @@ define(['level', 'dom-drawing', 'keyboard', 'GAME_LEVELS'], function(level, draw
   function lose() {
     console.log('You lose');
   }
-  function showLifeCount(remainingLives) {
+  function showLifeCount() {
     console.log('You have: ' + remainingLives + (remainingLives > 1 ? ' lives' : ' life') + " remaining.");
   }
+
+  // Displays a message to the user telling him the game is paused/unpaused
+  // displayedPauseStatus: true if we have shown the user pause,
+  //                       false if we have shown him unpause,
+  //                       null if we haven't shown anything
+  // currentPauseState: The actual state of the engine
+  function showPausedStatus(displayedPauseStatus, currentPauseState){
+    // copy the input param so that we can modify and return
+    var shownStatus = displayedPauseStatus;
+    // if the pause state and what we've shown the user are out of sync
+    // then we've changed state (either null -> pause, pause -> unpause, unpause -> pause)
+    if (currentPauseState !== shownStatus){
+      if (currentPauseState){
+        console.log('Game is paused');
+      } else if (shownStatus !== null) { // never print a message if pause hasn't ever been pressed
+        console.log('Unpaused');
+      }
+      // update the status to match the state of the engine
+      shownStatus = currentPauseState;
+    }
+
+    return shownStatus;
+  }
+
+  var thirtyAdded = false
+  function addThirtyLives(){
+    if (!thirtyAdded){
+      console.log('konami success!!!');
+      remainingLives = 30;
+      thirtyAdded = true;
+      showLifeCount();
+     } else {
+      console.log("You've already used the code buddy... :/");
+      showLifeCount();
+    }
+  }
+
   // function to terminate while running
   var kill = function(){
     killSwitch = true;
